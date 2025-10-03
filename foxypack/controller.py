@@ -34,16 +34,19 @@ class FoxyPack:
         return None
 
     def get_statistics(self, url: str) -> AnswersStatistics | None:
+        answers_analysis = self.get_analysis(url)
         for foxy_stat in self.queue_foxy_stat:
-            result_analysis = foxy_stat.get_analysis(url=url)
+            result_analysis = foxy_stat.get_stat(answers_analysis=answers_analysis)
             if result_analysis is not None:
                 return result_analysis
         return None
 
     async def get_statistics_async(self, url: str) -> AnswersStatistics | None:
-        result_analysis = self.get_analysis(url)
+        answers_analysis = self.get_analysis(url)
         for foxy_stat in self.queue_foxy_stat:
-            result_analysis = await foxy_stat.get_analysis(url=url)
+            result_analysis = await foxy_stat.get_stat_async(
+                answers_analysis=answers_analysis
+            )
             if result_analysis is not None:
                 return result_analysis
         return None
