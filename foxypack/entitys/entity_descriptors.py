@@ -1,4 +1,4 @@
-from validators import (
+from .validators import (
     validate_proxy,
     validate_telegram_session_token,
     validate_telegram_api_hash,

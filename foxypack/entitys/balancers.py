@@ -3,17 +3,17 @@ import uuid
 from datetime import timedelta
 from typing import Type
 
-from entitys import Entity
-from pool import EntityPool, FullEntity
-from exceptions import EntityPermanentlyBlockedError
-from types import Status
+from .entitys import Entity
+from .pool import EntityPool
+from .exceptions import EntityPermanentlyBlockedError
+from .types import Status
 
 
 class BaseEntityBalancer:
     def __init__(self, pool: EntityPool):
         self.pool = pool
 
-    def get(self, entity: Type[FullEntity]) -> FullEntity:
+    def get(self, entity: Type[Entity]) -> Entity:
         candidates = self.pool.get_available_of_type(entity)
         if not candidates:
             raise LookupError(f"There are no available entities of the {entity.__name__} type")

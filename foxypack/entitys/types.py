@@ -2,8 +2,8 @@ from abc import abstractmethod
 from enum import Enum
 from typing import Type, Optional, cast
 
-from casting import T
-from serializer import EnumSerializer
+from .casting import T
+from .serializer import EnumSerializer
 
 
 @EnumSerializer.register_enum

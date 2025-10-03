@@ -5,7 +5,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Type
 
-from validators import resolve_enum
+from .validators import resolve_enum
 
 
 class Storage:

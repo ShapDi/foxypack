@@ -2,7 +2,7 @@ import logging
 import uuid
 from typing import Type, Optional, Any, Union
 
-from .entitys import Entity, Proxy, TelegramAccount
+from .entitys import Entity
 from .storage import Storage
 from .exceptions import (
     StorageLoadError,
@@ -11,7 +11,7 @@ from .exceptions import (
 )
 from .types import Status
 
-FullEntity = Union[Proxy, TelegramAccount]
+
 
 
 class EntityPool:
@@ -49,7 +49,7 @@ class EntityPool:
     def get_by_id(self, entity_id: uuid.UUID) -> Optional[Entity]:
         return self._entities.get(entity_id)
 
-    def get_available_of_type(self, entity: Type[FullEntity]) -> list[FullEntity]:
+    def get_available_of_type(self, entity: Type[Entity]) -> list[Entity]:
         return [
             e.try_as(entity)
             for e in self._entities.values()

@@ -3,12 +3,12 @@ import re
 from enum import Enum
 from urllib.parse import urlparse
 
-from exceptions import (
+from .exceptions import (
     ProxyValidationError,
     InstagramValidationError,
     TelegramValidationError,
 )
-from serializer import EnumSerializer
+from .serializer import EnumSerializer
 
 
 def validate_count(value: int | float, source: str):
