@@ -1,0 +1,3 @@
+from foxypack.entitys.entitys import TelegramAccount
+
+TelegramAccount

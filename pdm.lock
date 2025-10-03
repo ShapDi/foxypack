@@ -5,7 +5,7 @@
 groups = ["default", "test"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:fe9c10832be2cca4d4e2805a5607dbd7ef93ac2021c54548a2e28a9775b4dfaf"
+content_hash = "sha256:5b4856fc627dbf4763b77394e183f218add31b4c036de2fd37b3399dcf5e6bb1"
 
 [[metadata.targets]]
 requires_python = ">=3.10"
@@ -361,21 +361,6 @@ files = [
 ]
 
 [[package]]
-name = "pydentic"
-version = "0.0.1.dev3"
-requires_python = ">=3.6.1"
-summary = "Pydantic Identifiers"
-groups = ["default"]
-dependencies = [
-    "python-stdnum>=1.16",
-    "typing-extensions>=3.7.4.3; python_version < \"3.8\"",
-]
-files = [
-    {file = "pydentic-0.0.1.dev3-py3-none-any.whl", hash = "sha256:b37f690f262e02e781deae8588a411c596489bc2837701fbb5e8c59b31b4236e"},
-    {file = "pydentic-0.0.1.dev3.tar.gz", hash = "sha256:4c5ee9c260e3cbcdb2a2d725b1d98046cb2b5298e6d6154449a685cf4cca85ec"},
-]
-
-[[package]]
 name = "pygments"
 version = "2.19.2"
 requires_python = ">=3.8"
@@ -404,17 +389,6 @@ dependencies = [
 files = [
     {file = "pytest-8.4.2-py3-none-any.whl", hash = "sha256:872f880de3fc3a5bdc88a11b39c9710c3497a547cfa9320bc3c5e62fbf272e79"},
     {file = "pytest-8.4.2.tar.gz", hash = "sha256:86c0d0b93306b961d58d62a4db4879f27fe25513d4b969df351abdddb3c30e01"},
-]
-
-[[package]]
-name = "python-stdnum"
-version = "2.1"
-requires_python = ">=3.8"
-summary = "Python module to handle standardized numbers and codes"
-groups = ["default"]
-files = [
-    {file = "python_stdnum-2.1-py3-none-any.whl", hash = "sha256:25eabcf5f307dd4150fd8f1c03f4512a6caeb84c9f09be1448711f5803373c58"},
-    {file = "python_stdnum-2.1.tar.gz", hash = "sha256:6b01645969eb3dfd55061a0114d593753cd9e653cea9083198b7eea12644397a"},
 ]
 
 [[package]]
