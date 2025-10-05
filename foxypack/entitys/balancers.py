@@ -16,7 +16,9 @@ class BaseEntityBalancer:
     def get(self, entity: Type[Entity]) -> Entity:
         candidates = self.pool.get_available_of_type(entity)
         if not candidates:
-            raise LookupError(f"There are no available entities of the {entity.__name__} type")
+            raise LookupError(
+                f"There are no available entities of the {entity.__name__} type"
+            )
         entity = candidates[0]
         self.pool.check_entity(entity)
         self.pool.mark_in_use(entity)

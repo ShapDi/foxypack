@@ -89,6 +89,3 @@ class Entity(ABC, CastableMixin):
         if self.subscribers:
             for subscriber in self.subscribers:
                 subscriber.notify()
-
-
-

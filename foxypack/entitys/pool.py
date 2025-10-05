@@ -12,8 +12,6 @@ from .exceptions import (
 from .types import Status
 
 
-
-
 class EntityPool:
     def __init__(self, path: Optional[str] = None):
         self._entities: dict[uuid.UUID, Entity] = {}
@@ -34,9 +32,7 @@ class EntityPool:
         if any(
             self._is_duplicate(entity, existing) for existing in self._entities.values()
         ):
-            logging.warning(
-                f"The {entity} already exists and cannot be added again"
-            )
+            logging.warning(f"The {entity} already exists and cannot be added again")
             return
         self._entities[entity.id] = entity
         self._save()
