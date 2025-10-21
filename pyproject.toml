@@ -1,11 +1,11 @@
 [project]
 name = "foxypack"
-version = "0.0.4"
+version = "0.0.6"
 description = "foxy interface library, entity balancing core, and shared parser"
 authors = [
     {name = "shapdi", email = "shapranov.work@gmail.com"},
 ]
-dependencies = [ "pydantic>=2.11.9"]
+dependencies = ["pydantic==2.11.7"]
 requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "MIT"}

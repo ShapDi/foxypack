@@ -1,5 +1,3 @@
-from typing import List, Optional
-
 from foxypack.abc.foxyanalysis import FoxyAnalysis
 from foxypack.abc.foxystat import FoxyStat
 
@@ -9,10 +7,13 @@ from foxypack.answers import AnswersAnalysis, AnswersStatistics
 
 
 class FoxyPack:
+    queue_foxy_analysis: list[FoxyAnalysis]
+    queue_foxy_stat: list[FoxyStat]
+
     def __init__(
         self,
-        queue_foxy_analysis: Optional[List[FoxyAnalysis]] = None,
-        queue_foxy_stat: Optional[List[FoxyStat]] = None,
+        queue_foxy_analysis: list[FoxyAnalysis] | None = None,
+        queue_foxy_stat: list[FoxyStat] | None = None,
     ) -> None:
         self.queue_foxy_analysis = queue_foxy_analysis or []
         self.queue_foxy_stat = queue_foxy_stat or []
