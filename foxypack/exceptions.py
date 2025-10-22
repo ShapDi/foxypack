@@ -1,11 +1,15 @@
+from __future__ import annotations
 from typing_extensions import override
-from foxypack.foxypack_abc.foxystat import FoxyStat
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .foxypack_abc.foxystat import FoxyStat
 
 
 class DenialSychronService(Exception):
-    name_foxystat_subclass: type[FoxyStat]
+    name_foxystat_subclass: "type[FoxyStat]"
 
-    def __init__(self, name_foxystat_subclass: type[FoxyStat]) -> None:
+    def __init__(self, name_foxystat_subclass: "type[FoxyStat]") -> None:
         super().__init__()
         self.name_foxystat_subclass = name_foxystat_subclass
 
@@ -15,9 +19,9 @@ class DenialSychronService(Exception):
 
 
 class DenialAsynchronousService(Exception):
-    name_foxystat_subclass: type[FoxyStat]
+    name_foxystat_subclass: "type[FoxyStat]"
 
-    def __init__(self, name_foxystat_subclass: type[FoxyStat]) -> None:
+    def __init__(self, name_foxystat_subclass: "type[FoxyStat]") -> None:
         super().__init__()
         self.name_foxystat_subclass = name_foxystat_subclass
 
