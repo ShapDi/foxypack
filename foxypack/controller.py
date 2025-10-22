@@ -1,5 +1,5 @@
-from foxypack.abc.foxyanalysis import FoxyAnalysis
-from foxypack.abc.foxystat import FoxyStat
+from foxypack.foxypack_abc.foxyanalysis import FoxyAnalysis
+from foxypack.foxypack_abc.foxystat import FoxyStat
 
 from typing_extensions import Self
 
@@ -29,7 +29,10 @@ class FoxyPack:
 
     def get_analysis(self, url: str) -> AnswersAnalysis | None:
         for foxy_analysis in self.queue_foxy_analysis:
-            result_analysis = foxy_analysis.get_analysis(url=url)
+            try:
+                result_analysis = foxy_analysis.get_analysis(url=url)
+            except Exception as ex:
+                continue
             if result_analysis is not None:
                 return result_analysis
         return None
@@ -39,7 +42,10 @@ class FoxyPack:
         if answers_analysis is None:
             return None
         for foxy_stat in self.queue_foxy_stat:
-            result_analysis = foxy_stat.get_stat(answers_analysis=answers_analysis)
+            try:
+                result_analysis = foxy_stat.get_stat(answers_analysis=answers_analysis)
+            except Exception as ex:
+                continue
             if result_analysis is not None:
                 return result_analysis
         return None
@@ -49,9 +55,12 @@ class FoxyPack:
         if answers_analysis is None:
             return None
         for foxy_stat in self.queue_foxy_stat:
-            result_analysis = await foxy_stat.get_stat_async(
-                answers_analysis=answers_analysis
-            )
+            try:
+                result_analysis = await foxy_stat.get_stat_async(
+                    answers_analysis=answers_analysis
+                )
+            except Exception as ex:
+                continue
             if result_analysis is not None:
                 return result_analysis
         return None

@@ -1,6 +1,6 @@
 import logging
 import uuid
-from typing import Type, Optional, Any, Union
+from typing import Type, Optional, Any
 
 from .entitys import Entity
 from .storage import Storage

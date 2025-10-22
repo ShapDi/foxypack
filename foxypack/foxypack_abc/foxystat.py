@@ -1,15 +1,16 @@
 from abc import ABC, abstractmethod
 
 from foxypack.answers import AnswersStatistics, AnswersAnalysis
+from foxypack.exceptions import DenialSychronService, DenialAsynchronousService
 
 
 class FoxyStat(ABC):
     @abstractmethod
     def get_stat(self, answers_analysis: AnswersAnalysis) -> AnswersStatistics | None:
-        pass
+        raise DenialSychronService(self.__class__)
 
     @abstractmethod
     async def get_stat_async(
         self, answers_analysis: AnswersAnalysis
     ) -> AnswersStatistics | None:
-        pass
+        raise DenialAsynchronousService(self.__class__)

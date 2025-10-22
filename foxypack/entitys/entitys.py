@@ -3,14 +3,6 @@ import uuid
 from abc import ABC
 from dataclasses import dataclass, field
 
-from .entity_descriptors import (
-    StrProxyDescriptor,
-    IntTelegramApiIdDescriptor,
-    StrTelegramApiHashDescriptor,
-    StrTelegramTokenSessionDescriptor,
-    BoolTelegramIsInitializedDescriptor,
-)
-from .storage import Storage
 from .types import CastableMixin, EntityListenerMixin, Status
 from .validators import validate_count
 
