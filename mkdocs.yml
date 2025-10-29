@@ -1,0 +1,53 @@
+site_name: FoxyPack
+site_url: https://foxypack.com
+repo_url: https://github.com/ShapDi/foxypack.git
+site_description: foxy interface library, entity balancing core, and shared parser
+
+extra:
+  alternate:
+    - name: English
+      link: /en/
+      lang: en
+    - name: Русский
+      link: /ru/
+      lang: ru
+  version:
+    provider: mike
+
+theme:
+  name: material
+  language: en
+  direction: ltr
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/lightbulb-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/lightbulb
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to system preference
+
+nav:
+  - Home: index.md
+  - Languages:
+      - English:
+          - Home: en/index.md
+        # - Guide: en/guide.md
+        # - API: en/api.md
+      - Русский:
+          - Главная: ru/index.md
+        # - Руководство: ru/guide.md
+        # - API: ru/api.md
