@@ -2,7 +2,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from typing_extensions import override
 
-from foxypack.answers import AnswersAnalysis
+from .foxypack_abc.answers import AnswersAnalysis
+
+
 
 if TYPE_CHECKING:
     from .foxypack_abc.foxystat import FoxyStat
