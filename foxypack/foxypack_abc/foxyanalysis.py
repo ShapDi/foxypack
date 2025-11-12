@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from foxypack.answers import AnswersAnalysis
+from foxypack.foxypack_abc.answers import AnswersAnalysis
 
 
 class FoxyAnalysis(ABC):
