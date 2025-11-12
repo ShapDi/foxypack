@@ -1,4 +1,5 @@
 from datetime import date
+from typing_extensions import TypeVar
 
 from pydantic import BaseModel
 
@@ -10,8 +11,14 @@ class AnswersAnalysis(BaseModel):
     type_content: str
 
 
+AnalysisType = TypeVar("AnalysisType", bound=AnswersAnalysis)
+
+
 class AnswersStatistics(BaseModel):
     answer_id: str
+
+
+StatisticsType = TypeVar("StatisticsType", bound=AnswersStatistics)
 
 
 class AnswersSocialContainer(AnswersStatistics):

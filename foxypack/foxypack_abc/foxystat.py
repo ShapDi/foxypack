@@ -1,18 +1,18 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
+from typing_extensions import Generic
 
-
-from foxypack.foxypack_abc.answers import AnswersStatistics, AnswersAnalysis
+from foxypack.foxypack_abc.answers import AnalysisType, StatisticsType
 from foxypack.exceptions import DenialSychronService, DenialAsynchronousService
 
 
-class FoxyStat(ABC):
+class FoxyStat(ABC, Generic[AnalysisType]):
     @abstractmethod
-    def get_stat(self, answers_analysis: AnswersAnalysis) -> AnswersStatistics | None:
-        raise DenialSychronService(self.__class__)
+    def get_stat(self, answers_analysis: AnalysisType) -> StatisticsType | None:
+        raise DenialSychronService(FoxyStat)
 
     @abstractmethod
     async def get_stat_async(
-        self, answers_analysis: AnswersAnalysis
-    ) -> AnswersStatistics | None:
-        raise DenialAsynchronousService(self.__class__)
+        self, answers_analysis: AnalysisType
+    ) -> StatisticsType | None:
+        raise DenialAsynchronousService(FoxyStat)
