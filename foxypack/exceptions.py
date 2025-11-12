@@ -5,7 +5,6 @@ from typing_extensions import override
 from .foxypack_abc.answers import AnswersAnalysis
 
 
-
 if TYPE_CHECKING:
     from .foxypack_abc.foxystat import FoxyStat
 
