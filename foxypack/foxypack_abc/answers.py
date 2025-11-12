@@ -25,6 +25,6 @@ class AnswersSocialContainer(AnswersStatistics):
 class AnswersSocialContent(AnswersStatistics):
     system_id: str
     title: str
-    views: str
+    views: int
     publish_date: date | None
     analysis_status: AnswersAnalysis
