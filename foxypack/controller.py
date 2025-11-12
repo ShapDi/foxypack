@@ -31,7 +31,7 @@ class FoxyPack:
         for foxy_analysis in self.queue_foxy_analysis:
             try:
                 result_analysis = foxy_analysis.get_analysis(url=url)
-            except Exception as ex:
+            except Exception:
                 continue
             if result_analysis is not None:
                 return result_analysis
@@ -44,7 +44,7 @@ class FoxyPack:
         for foxy_stat in self.queue_foxy_stat:
             try:
                 result_analysis = foxy_stat.get_stat(answers_analysis=answers_analysis)
-            except Exception as ex:
+            except Exception:
                 continue
             if result_analysis is not None:
                 return result_analysis
@@ -59,7 +59,7 @@ class FoxyPack:
                 result_analysis = await foxy_stat.get_stat_async(
                     answers_analysis=answers_analysis
                 )
-            except Exception as ex:
+            except Exception:
                 continue
             if result_analysis is not None:
                 return result_analysis
