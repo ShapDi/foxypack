@@ -3,7 +3,7 @@ from foxypack.foxypack_abc.foxystat import FoxyStat
 
 from typing_extensions import Self
 
-from foxypack.answers import AnswersAnalysis, AnswersStatistics
+from foxypack.foxypack_abc.answers import AnswersAnalysis, AnswersStatistics
 
 
 class FoxyPack:

@@ -2,7 +2,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing_extensions import Generic
 
-from foxypack.answers import AnalysisType, StatisticsType
+from foxypack.foxypack_abc.answers import AnalysisType, StatisticsType
 from foxypack.exceptions import DenialSychronService, DenialAsynchronousService
 
 
