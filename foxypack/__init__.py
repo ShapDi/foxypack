@@ -1,6 +1,6 @@
 from foxypack.foxypack_abc.foxyanalysis import FoxyAnalysis
 from foxypack.foxypack_abc.foxystat import FoxyStat
-from foxypack.answers import AnswersAnalysis, AnswersStatistics
+from foxypack.foxypack_abc.answers import AnswersAnalysis, AnswersStatistics
 from foxypack.controller import FoxyPack
 from foxypack.entitys.balancers import BaseEntityBalancer, Entity
 from foxypack.entitys.pool import EntityPool
