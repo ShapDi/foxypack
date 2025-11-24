@@ -9,7 +9,7 @@ from .validators import validate_count
 
 @dataclass
 class Entity(ABC, CastableMixin):
-    id: uuid.UUID = uuid.uuid4()
+    id: uuid.UUID = field(default_factory=uuid.uuid4)
     _subscribers: list[EntityListenerMixin] | None = None
     _uses: int = 0
     _fails: int = 0
