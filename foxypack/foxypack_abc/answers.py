@@ -1,24 +1,18 @@
+import uuid
 from datetime import date
-from typing_extensions import TypeVar
 
 from pydantic import BaseModel
 
 
 class AnswersAnalysis(BaseModel):
-    answer_id: str
+    answer_id: uuid.UUID = uuid.uuid4()
     url: str
     social_platform: str
     type_content: str
 
 
-AnalysisType = TypeVar("AnalysisType", bound=AnswersAnalysis)
-
-
 class AnswersStatistics(BaseModel):
-    answer_id: str
-
-
-StatisticsType = TypeVar("StatisticsType", bound=AnswersStatistics)
+    answer_id: uuid.UUID = uuid.uuid4()
 
 
 class AnswersSocialContainer(AnswersStatistics):

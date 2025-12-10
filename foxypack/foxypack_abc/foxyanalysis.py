@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 
-from foxypack.foxypack_abc.answers import AnalysisType
+from foxypack.foxypack_abc.answers import AnswersAnalysis
 
 
 class FoxyAnalysis(ABC):
     @abstractmethod
-    def get_analysis(self, url: str) -> AnalysisType | None:
+    def get_analysis(self, url: str) -> AnswersAnalysis | None:
         pass
+    # Возвращать так же исключение ?
