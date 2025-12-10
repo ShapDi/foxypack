@@ -1,6 +1,6 @@
 [project]
 name = "foxypack"
-version = "0.0.9"
+version = "0.0.10"
 description = "foxy interface library, entity balancing core, and shared parser"
 authors = [
     {name = "shapdi", email = "shapranov.work@gmail.com"},
