@@ -7,4 +7,5 @@ class FoxyAnalysis(ABC):
     @abstractmethod
     def get_analysis(self, url: str) -> AnswersAnalysis | None:
         pass
+
     # Возвращать так же исключение ?
