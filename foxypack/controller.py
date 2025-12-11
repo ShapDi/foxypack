@@ -1,4 +1,5 @@
 from foxypack import InternalCollectionException
+from foxypack.exceptions import DenialAnalyticsException
 from foxypack.foxypack_abc.foxyanalysis import FoxyAnalysis
 from foxypack.foxypack_abc.foxystat import FoxyStat
 
@@ -28,37 +29,28 @@ class FoxyPack:
         for foxy_analysis in self.queue_foxy_analysis:
             try:
                 result_analysis = foxy_analysis.get_analysis(url=url)
-            except Exception:
+            except DenialAnalyticsException:
                 continue
-            if result_analysis is not None:
-                return result_analysis
-        return None
+            return result_analysis
 
     def get_statistics(self, url: str) -> AnswersStatistics | None:
         answers_analysis = self.get_analysis(url)
-        if answers_analysis is None:
-            return None
         for foxy_stat in self.queue_foxy_stat:
             try:
-                result_analysis = foxy_stat.get_stat(answers_analysis=answers_analysis)
-            except Exception:
-                continue
-            if result_analysis is not None:
-                return result_analysis
-        return None
-
-    async def get_statistics_async(self, url: str) -> AnswersStatistics | None:
-        answers_analysis = self.get_analysis(url)
-        if answers_analysis is None:
-            return None
-        for foxy_stat in self.queue_foxy_stat:
-            try:
-                result_analysis = await foxy_stat.get_stat_async(
+                result_analysis = foxy_stat.get_statistics(
                     answers_analysis=answers_analysis
                 )
-            # Пробросить иную ошибку и посмотреть обрабатывается ли она
             except InternalCollectionException:
                 continue
             return result_analysis
-        # Я думаю стоит так же позвращать исключение
-        return None
+
+    async def get_statistics_async(self, url: str) -> AnswersStatistics | None:
+        answers_analysis = self.get_analysis(url)
+        for foxy_stat in self.queue_foxy_stat:
+            try:
+                result_analysis = await foxy_stat.get_statistics_async(
+                    answers_analysis=answers_analysis
+                )
+            except InternalCollectionException:
+                continue
+            return result_analysis

@@ -11,11 +11,11 @@ from foxypack.exceptions import (
 
 class FoxyStat(ABC):
     @abstractmethod
-    def get_stat(self, answers_analysis: AnswersAnalysis) -> AnswersStatistics:
+    def get_statistics(self, answers_analysis: AnswersAnalysis) -> AnswersStatistics:
         raise DenialAsynchronousServiceException(self.__class__)
 
     @abstractmethod
-    async def get_stat_async(
+    async def get_statistics_async(
         self, answers_analysis: AnswersAnalysis
     ) -> AnswersStatistics:
         raise DenialAsynchronousServiceException(self.__class__)

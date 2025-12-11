@@ -7,6 +7,14 @@ if TYPE_CHECKING:
     from .foxypack_abc.foxystat import FoxyStat
 
 
+class DenialAnalyticsException(Exception):
+    def __init__(self, url: str) -> None:
+        self.message = f"The provided {url} is not supported"
+
+    def __str__(self) -> str:
+        return self.message
+
+
 class InternalCollectionException(Exception):
     pass
 
