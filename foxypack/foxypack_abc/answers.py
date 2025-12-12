@@ -1,18 +1,18 @@
 import uuid
 from datetime import date
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class AnswersAnalysis(BaseModel):
-    answer_id: uuid.UUID = uuid.uuid4()
+    answer_id: uuid.UUID = Field(default_factory=uuid.uuid4)
     url: str
     social_platform: str
     type_content: str
 
 
 class AnswersStatistics(BaseModel):
-    answer_id: uuid.UUID = uuid.uuid4()
+    answer_id: uuid.UUID = Field(default_factory=uuid.uuid4)
 
 
 class AnswersSocialContainer(AnswersStatistics):
