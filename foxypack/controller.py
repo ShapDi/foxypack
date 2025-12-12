@@ -1,5 +1,4 @@
-from foxypack import InternalCollectionException
-from foxypack.exceptions import DenialAnalyticsException
+from foxypack.exceptions import DenialAnalyticsException, InternalCollectionException
 from foxypack.foxypack_abc.foxyanalysis import FoxyAnalysis
 from foxypack.foxypack_abc.foxystat import FoxyStat
 
@@ -32,25 +31,32 @@ class FoxyPack:
             except DenialAnalyticsException:
                 continue
             return result_analysis
+        return None
 
     def get_statistics(self, url: str) -> AnswersStatistics | None:
         answers_analysis = self.get_analysis(url)
+        if answers_analysis is None:
+            return None
         for foxy_stat in self.queue_foxy_stat:
             try:
                 result_analysis = foxy_stat.get_statistics(
                     answers_analysis=answers_analysis
                 )
+                return result_analysis
             except InternalCollectionException:
                 continue
-            return result_analysis
+        return None
 
     async def get_statistics_async(self, url: str) -> AnswersStatistics | None:
         answers_analysis = self.get_analysis(url)
+        if answers_analysis is None:
+            return None
         for foxy_stat in self.queue_foxy_stat:
             try:
                 result_analysis = await foxy_stat.get_statistics_async(
                     answers_analysis=answers_analysis
                 )
+                return result_analysis
             except InternalCollectionException:
                 continue
-            return result_analysis
+        return None
