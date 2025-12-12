@@ -3,10 +3,6 @@ from urllib.parse import parse_qs
 
 import pytest
 
-from foxypack import FoxyAnalysis, AnswersAnalysis, DenialAnalyticsException
-import urllib.parse
-from urllib.parse import urlparse, parse_qs
-import uuid
 
 from foxypack import FoxyAnalysis, AnswersAnalysis
 from foxypack.exceptions import DenialAnalyticsException
