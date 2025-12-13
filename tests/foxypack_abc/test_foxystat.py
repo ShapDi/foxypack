@@ -5,10 +5,13 @@ from foxypack import (
     AnswersAnalysis,
     DenialAsynchronousServiceException,
     AnswersStatistics,
-    DenialSynchronousServiceException, FoxyPack, InternalCollectionException, DenialAnalyticsException,
+    DenialSynchronousServiceException,
+    FoxyPack,
+    InternalCollectionException,
+    DenialAnalyticsException,
 )
 
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 from typing import Union
 import random
 from urllib.parse import urlparse, parse_qs
@@ -24,20 +27,20 @@ class FakeStat(FoxyStat):
                 "system_id": "CH_001",
                 "title": "Tech Reviews Channel",
                 "subscribers": 15400,
-                "creation_date": date(2020, 3, 15)
+                "creation_date": date(2020, 3, 15),
             },
             "programming": {
                 "system_id": "CH_002",
                 "title": "Code Masters",
                 "subscribers": 89200,
-                "creation_date": date(2019, 7, 22)
+                "creation_date": date(2019, 7, 22),
             },
             "gaming": {
                 "system_id": "CH_003",
                 "title": "Game Zone",
                 "subscribers": 231500,
-                "creation_date": date(2021, 1, 10)
-            }
+                "creation_date": date(2021, 1, 10),
+            },
         }
 
         self.fake_content = {
@@ -45,40 +48,47 @@ class FakeStat(FoxyStat):
                 "system_id": "VID_001",
                 "title": "New Smartphone Review 2024",
                 "views": 125000,
-                "publish_date": date(2024, 1, 15)
+                "publish_date": date(2024, 1, 15),
             },
             "image_abc123": {
                 "system_id": "IMG_001",
                 "title": "Sunset Landscape Photography",
                 "views": 8700,
-                "publish_date": date(2023, 12, 5)
+                "publish_date": date(2023, 12, 5),
             },
             "text_xyz789": {
                 "system_id": "TXT_001",
                 "title": "Machine Learning Trends",
                 "views": 4300,
-                "publish_date": date(2024, 2, 20)
+                "publish_date": date(2024, 2, 20),
             },
             "audio_sound123": {
                 "system_id": "AUD_001",
                 "title": "Morning Meditation",
                 "views": 15600,
-                "publish_date": date(2023, 11, 30)
-            }
+                "publish_date": date(2023, 11, 30),
+            },
         }
 
         self.random_titles = [
-            "Awesome Content", "Daily Update", "Special Edition",
-            "Behind the Scenes", "Exclusive Interview", "Tutorial Guide",
-            "News Update", "Community Spotlight", "Weekly Recap"
+            "Awesome Content",
+            "Daily Update",
+            "Special Edition",
+            "Behind the Scenes",
+            "Exclusive Interview",
+            "Tutorial Guide",
+            "News Update",
+            "Community Spotlight",
+            "Weekly Recap",
         ]
 
-    def _extract_content_id(self, url: str) -> Union[str, None]:
+    @staticmethod
+    def _extract_content_id(url: str) -> Union[str, None]:
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
-        if 'content_id' in query_params:
-            return query_params['content_id'][0]
-        path = parsed_url.path.strip('/')
+        if "content_id" in query_params:
+            return query_params["content_id"][0]
+        path = parsed_url.path.strip("/")
         if path:
             return path
         return None
@@ -90,25 +100,16 @@ class FakeStat(FoxyStat):
             "system_id": f"CH_{random.randint(100, 999):03d}",
             "title": random.choice(self.random_titles),
             "subscribers": random.randint(100, 1000000),
-            "creation_date": date.today() - timedelta(days=random.randint(30, 365 * 3))
+            "creation_date": date.today() - timedelta(days=random.randint(30, 365 * 3)),
         }
 
     def _generate_fake_content_data(self, content_id: str) -> dict:
         for key, data in self.fake_content.items():
-            if content_id.startswith(key.split('_')[0]):
+            if content_id.startswith(key.split("_")[0]):
                 return data
-        if content_id.startswith('video_'):
+        if content_id.startswith("video_"):
             content_type = "video"
             base_views = random.randint(50000, 500000)
-        elif content_id.startswith('image_'):
-            content_type = "image"
-            base_views = random.randint(1000, 50000)
-        elif content_id.startswith('text_'):
-            content_type = "text"
-            base_views = random.randint(500, 20000)
-        elif content_id.startswith('audio_'):
-            content_type = "audio"
-            base_views = random.randint(10000, 100000)
         else:
             content_type = "unknown"
             base_views = random.randint(100, 10000)
@@ -116,7 +117,7 @@ class FakeStat(FoxyStat):
             "system_id": f"{content_type[:3].upper()}_{random.randint(100, 999):03d}",
             "title": f"{content_type.capitalize()} - {random.choice(self.random_titles)}",
             "views": base_views + random.randint(-base_views // 10, base_views // 10),
-            "publish_date": date.today() - timedelta(days=random.randint(1, 90))
+            "publish_date": date.today() - timedelta(days=random.randint(1, 90)),
         }
 
     def get_statistics(self, answers_analysis: AnswersAnalysis) -> AnswersStatistics:
@@ -131,7 +132,7 @@ class FakeStat(FoxyStat):
                 title=fake_data["title"],
                 subscribers=fake_data["subscribers"],
                 creation_date=fake_data["creation_date"],
-                analysis_status=answers_analysis
+                analysis_status=answers_analysis,
             )
         else:
             if not content_id:
@@ -142,15 +143,16 @@ class FakeStat(FoxyStat):
                 title=fake_data["title"],
                 views=fake_data["views"],
                 publish_date=fake_data["publish_date"],
-                analysis_status=answers_analysis
+                analysis_status=answers_analysis,
             )
 
     async def get_statistics_async(
-            self, answers_analysis: AnswersAnalysis
+        self, answers_analysis: AnswersAnalysis
     ) -> AnswersStatistics:
         if not answers_analysis:
             raise DenialAsynchronousServiceException(self.__class__)
         import asyncio
+
         await asyncio.sleep(0.1)
         return self.get_statistics(answers_analysis)
 
@@ -160,7 +162,7 @@ def test_fake_stat_container_sync():
     analysis = AnswersAnalysis(
         url="https://fakesocialmedia.com/qsgqsdrr",
         social_platform="FakeSocialMedia",
-        type_content="channel"
+        type_content="channel",
     )
 
     result = fake_stat.get_statistics(analysis)
@@ -176,43 +178,45 @@ def test_fake_stat_container_sync():
 
 
 def test_foxypack_with_analysis():
-    """Тест кейс проверяет добавление анализатора FoxyAnalysis в FoxyPack"""
+    """Test case verifies adding FoxyAnalysis analyzer to FoxyPack"""
     foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis())
 
-    assert len(foxypack.queue_foxy_analysis) == 1
-    assert isinstance(foxypack.queue_foxy_analysis[0], FakeAnalysis)
-    assert len(foxypack.queue_foxy_stat) == 0
+    assert len(foxypack._queue_foxy_analysis) == 1
+    assert isinstance(foxypack._queue_foxy_analysis[0], FakeAnalysis)
+    assert len(foxypack._queue_foxy_stat) == 0
 
 
 def test_foxypack_with_stat():
-    """Тест кейс проверяет добавление статистики FoxyStat в FoxyPack"""
+    """Test case verifies adding FoxyStat statistics to FoxyPack"""
     foxypack = FoxyPack().with_foxy_stat(FakeStat())
 
-    assert len(foxypack.queue_foxy_stat) == 1
-    assert isinstance(foxypack.queue_foxy_stat[0], FakeStat)
-    assert len(foxypack.queue_foxy_analysis) == 0
+    assert len(foxypack._queue_foxy_stat) == 1
+    assert isinstance(foxypack._queue_foxy_stat[0], FakeStat)
+    assert len(foxypack._queue_foxy_analysis) == 0
 
 
 def test_foxypack_with_both():
-    """Тест кейс проверяет добавление и анализатора и статистики в FoxyPack"""
+    """Test case verifies adding both analyzer and statistics to FoxyPack"""
     foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis()).with_foxy_stat(FakeStat())
 
-    assert len(foxypack.queue_foxy_analysis) == 1
-    assert len(foxypack.queue_foxy_stat) == 1
-    assert isinstance(foxypack.queue_foxy_analysis[0], FakeAnalysis)
-    assert isinstance(foxypack.queue_foxy_stat[0], FakeStat)
+    assert len(foxypack._queue_foxy_analysis) == 1
+    assert len(foxypack._queue_foxy_stat) == 1
+    assert isinstance(foxypack._queue_foxy_analysis[0], FakeAnalysis)
+    assert isinstance(foxypack._queue_foxy_stat[0], FakeStat)
 
 
 def test_foxypack_chain_multiple():
-    """Тест кейс проверяет цепочное добавление нескольких анализаторов"""
-    foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis()).with_foxy_analysis(FakeAnalysis())
+    """Test case verifies chaining addition of multiple analyzers"""
+    foxypack = (
+        FoxyPack().with_foxy_analysis(FakeAnalysis()).with_foxy_analysis(FakeAnalysis())
+    )
 
-    assert len(foxypack.queue_foxy_analysis) == 2
-    assert len(foxypack.queue_foxy_stat) == 0
+    assert len(foxypack._queue_foxy_analysis) == 2
+    assert len(foxypack._queue_foxy_stat) == 0
 
 
 def test_foxypack_get_analysis_channel():
-    """Тест кейс проверяет получение анализа для канала через FoxyPack"""
+    """Test case verifies getting analysis for a channel through FoxyPack"""
     foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis())
     analysis = foxypack.get_analysis("https://fakesocialmedia.com/qsgqsdrr")
 
@@ -223,26 +227,32 @@ def test_foxypack_get_analysis_channel():
 
 
 def test_foxypack_get_analysis_video():
-    """Тест кейс проверяет получение анализа для видео контента через FoxyPack"""
+    """Test case verifies getting analysis for video content through FoxyPack"""
     foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis())
-    analysis = foxypack.get_analysis("https://fakesocialmedia.com/qsgqsdr?content_id=video_fdasfdgfs")
+    analysis = foxypack.get_analysis(
+        "https://fakesocialmedia.com/qsgqsdr?content_id=video_fdasfdgfs"
+    )
 
     assert analysis is not None
-    assert analysis.url == "https://fakesocialmedia.com/qsgqsdr?content_id=video_fdasfdgfs"
+    assert (
+        analysis.url == "https://fakesocialmedia.com/qsgqsdr?content_id=video_fdasfdgfs"
+    )
     assert analysis.social_platform == "FakeSocialMedia"
     assert analysis.type_content == "video"
 
 
 def test_foxypack_get_analysis_invalid_url():
-    """Тест кейс проверяет обработку невалидного URL через FoxyPack"""
+    """Test case verifies handling of invalid URL through FoxyPack"""
     foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis())
-    analysis = foxypack.get_analysis("https://invalidmedia.com/qsgqsdr?content_id=video_fdasfdgfs")
+    analysis = foxypack.get_analysis(
+        "https://invalidmedia.com/qsgqsdr?content_id=video_fdasfdgfs"
+    )
 
     assert analysis is None
 
 
 def test_foxypack_get_analysis_no_analyzers():
-    """Тест кейс проверяет поведение FoxyPack без анализаторов"""
+    """Test case verifies behavior of FoxyPack without analyzers"""
     foxypack = FoxyPack()
     analysis = foxypack.get_analysis("https://fakesocialmedia.com/qsgqsdrr")
 
@@ -250,13 +260,17 @@ def test_foxypack_get_analysis_no_analyzers():
 
 
 def test_foxypack_get_analysis_multiple_analyzers_first_success():
-    """Тест кейс проверяет работу цепочки анализаторов, где первый падает, а второй успешен"""
+    """Test case verifies analyzer chain operation where the first one fails and the second succeeds"""
 
     class FailingFakeAnalysis(FakeAnalysis):
         def get_analysis(self, url: str):
             raise DenialAnalyticsException(url)
 
-    foxypack = FoxyPack().with_foxy_analysis(FailingFakeAnalysis()).with_foxy_analysis(FakeAnalysis())
+    foxypack = (
+        FoxyPack()
+        .with_foxy_analysis(FailingFakeAnalysis())
+        .with_foxy_analysis(FakeAnalysis())
+    )
     analysis = foxypack.get_analysis("https://fakesocialmedia.com/qsgqsdrr")
 
     assert analysis is not None
@@ -266,20 +280,24 @@ def test_foxypack_get_analysis_multiple_analyzers_first_success():
 
 
 def test_foxypack_get_analysis_multiple_analyzers_all_fail():
-    """Тест кейс проверяет работу цепочки анализаторов, где все анализаторы падают"""
+    """Test case verifies analyzer chain operation where all analyzers fail"""
 
     class FailingFakeAnalysis(FakeAnalysis):
         def get_analysis(self, url: str):
             raise DenialAnalyticsException(url)
 
-    foxypack = FoxyPack().with_foxy_analysis(FailingFakeAnalysis()).with_foxy_analysis(FailingFakeAnalysis())
+    foxypack = (
+        FoxyPack()
+        .with_foxy_analysis(FailingFakeAnalysis())
+        .with_foxy_analysis(FailingFakeAnalysis())
+    )
     analysis = foxypack.get_analysis("https://fakesocialmedia.com/qsgqsdrr")
 
     assert analysis is None
 
 
 def test_foxypack_get_statistics_full_flow():
-    """Тест кейс проверяет полный поток работы FoxyPack: анализ + статистика для канала"""
+    """Test case verifies the full workflow of FoxyPack: analysis + statistics for channel"""
     foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis()).with_foxy_stat(FakeStat())
     statistics = foxypack.get_statistics("https://fakesocialmedia.com/qsgqsdrr")
 
@@ -292,9 +310,11 @@ def test_foxypack_get_statistics_full_flow():
 
 
 def test_foxypack_get_statistics_video_content():
-    """Тест кейс проверяет полный поток работы FoxyPack: анализ + статистика для видео"""
+    """Test case verifies the full workflow of FoxyPack: analysis + statistics for video"""
     foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis()).with_foxy_stat(FakeStat())
-    statistics = foxypack.get_statistics("https://fakesocialmedia.com/qsgqsdr?content_id=video_fdasfdgfs")
+    statistics = foxypack.get_statistics(
+        "https://fakesocialmedia.com/qsgqsdr?content_id=video_fdasfdgfs"
+    )
 
     assert statistics is not None
     assert isinstance(statistics, AnswersSocialContent)
@@ -305,7 +325,7 @@ def test_foxypack_get_statistics_video_content():
 
 
 def test_foxypack_get_statistics_no_analysis():
-    """Тест кейс проверяет получение статистики без анализаторов в FoxyPack"""
+    """Test case verifies getting statistics without analyzers in FoxyPack"""
     foxypack = FoxyPack().with_foxy_stat(FakeStat())
     statistics = foxypack.get_statistics("https://fakesocialmedia.com/qsgqsdrr")
 
@@ -313,7 +333,7 @@ def test_foxypack_get_statistics_no_analysis():
 
 
 def test_foxypack_get_statistics_no_stats():
-    """Тест кейс проверяет получение статистики без статистических обработчиков в FoxyPack"""
+    """Test case verifies getting statistics without statistical handlers in FoxyPack"""
     foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis())
     statistics = foxypack.get_statistics("https://fakesocialmedia.com/qsgqsdrr")
 
@@ -321,7 +341,7 @@ def test_foxypack_get_statistics_no_stats():
 
 
 def test_foxypack_get_statistics_invalid_url():
-    """Тест кейс проверяет обработку невалидного URL при получении статистики"""
+    """Test case verifies handling of invalid URL when getting statistics"""
     foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis()).with_foxy_stat(FakeStat())
     statistics = foxypack.get_statistics("https://invalidmedia.com/qsgqsdrr")
 
@@ -329,14 +349,18 @@ def test_foxypack_get_statistics_invalid_url():
 
 
 def test_foxypack_get_statistics_multiple_stats_first_success():
-    """Тест кейс проверяет работу цепочки статистических обработчиков в FoxyPack"""
+    """Test case verifies the operation of the statistical handler chain in FoxyPack"""
 
     class FailingFakeStat(FakeStat):
         def get_statistics(self, answers_analysis):
             raise InternalCollectionException()
 
-    foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis()).with_foxy_stat(FailingFakeStat()).with_foxy_stat(
-        FakeStat())
+    foxypack = (
+        FoxyPack()
+        .with_foxy_analysis(FakeAnalysis())
+        .with_foxy_stat(FailingFakeStat())
+        .with_foxy_stat(FakeStat())
+    )
     statistics = foxypack.get_statistics("https://fakesocialmedia.com/qsgqsdrr")
 
     assert statistics is not None
@@ -345,14 +369,18 @@ def test_foxypack_get_statistics_multiple_stats_first_success():
 
 
 def test_foxypack_get_statistics_multiple_stats_all_fail():
-    """Тест кейс проверяет работу FoxyPack когда все статистические обработчики падают"""
+    """Test case verifies FoxyPack operation when all statistical handlers fail"""
 
     class FailingFakeStat(FakeStat):
         def get_statistics(self, answers_analysis):
             raise InternalCollectionException()
 
-    foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis()).with_foxy_stat(FailingFakeStat()).with_foxy_stat(
-        FailingFakeStat())
+    foxypack = (
+        FoxyPack()
+        .with_foxy_analysis(FakeAnalysis())
+        .with_foxy_stat(FailingFakeStat())
+        .with_foxy_stat(FailingFakeStat())
+    )
     statistics = foxypack.get_statistics("https://fakesocialmedia.com/qsgqsdrr")
 
     assert statistics is None
@@ -360,9 +388,11 @@ def test_foxypack_get_statistics_multiple_stats_all_fail():
 
 @pytest.mark.asyncio
 async def test_foxypack_get_statistics_async_full_flow():
-    """Тест кейс проверяет асинхронный полный поток работы FoxyPack для канала"""
+    """Test case verifies asynchronous full workflow of FoxyPack for channel"""
     foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis()).with_foxy_stat(FakeStat())
-    statistics = await foxypack.get_statistics_async("https://fakesocialmedia.com/qsgqsdrr")
+    statistics = await foxypack.get_statistics_async(
+        "https://fakesocialmedia.com/qsgqsdrr"
+    )
 
     assert statistics is not None
     assert isinstance(statistics, AnswersSocialContainer)
@@ -374,9 +404,11 @@ async def test_foxypack_get_statistics_async_full_flow():
 
 @pytest.mark.asyncio
 async def test_foxypack_get_statistics_async_video_content():
-    """Тест кейс проверяет асинхронный полный поток работы FoxyPack для видео"""
+    """Test case verifies asynchronous full workflow of FoxyPack for video"""
     foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis()).with_foxy_stat(FakeStat())
-    statistics = await foxypack.get_statistics_async("https://fakesocialmedia.com/qsgqsdr?content_id=video_fdasfdgfs")
+    statistics = await foxypack.get_statistics_async(
+        "https://fakesocialmedia.com/qsgqsdr?content_id=video_fdasfdgfs"
+    )
 
     assert statistics is not None
     assert isinstance(statistics, AnswersSocialContent)
@@ -388,33 +420,43 @@ async def test_foxypack_get_statistics_async_video_content():
 
 @pytest.mark.asyncio
 async def test_foxypack_get_statistics_async_no_analysis():
-    """Тест кейс проверяет асинхронное получение статистики без анализаторов"""
+    """Test case verifies asynchronous statistics retrieval without analyzers"""
     foxypack = FoxyPack().with_foxy_stat(FakeStat())
-    statistics = await foxypack.get_statistics_async("https://fakesocialmedia.com/qsgqsdrr")
+    statistics = await foxypack.get_statistics_async(
+        "https://fakesocialmedia.com/qsgqsdrr"
+    )
 
     assert statistics is None
 
 
 @pytest.mark.asyncio
 async def test_foxypack_get_statistics_async_invalid_url():
-    """Тест кейс проверяет асинхронную обработку невалидного URL"""
+    """Test case verifies asynchronous handling of invalid URL"""
     foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis()).with_foxy_stat(FakeStat())
-    statistics = await foxypack.get_statistics_async("https://invalidmedia.com/qsgqsdrr")
+    statistics = await foxypack.get_statistics_async(
+        "https://invalidmedia.com/qsgqsdrr"
+    )
 
     assert statistics is None
 
 
 @pytest.mark.asyncio
 async def test_foxypack_get_statistics_async_multiple_stats():
-    """Тест кейс проверяет асинхронную работу цепочки статистических обработчиков"""
+    """Test case verifies asynchronous operation of statistical handler chain"""
 
     class FailingFakeStat(FakeStat):
         async def get_statistics_async(self, answers_analysis):
             raise InternalCollectionException()
 
-    foxypack = FoxyPack().with_foxy_analysis(FakeAnalysis()).with_foxy_stat(FailingFakeStat()).with_foxy_stat(
-        FakeStat())
-    statistics = await foxypack.get_statistics_async("https://fakesocialmedia.com/qsgqsdrr")
+    foxypack = (
+        FoxyPack()
+        .with_foxy_analysis(FakeAnalysis())
+        .with_foxy_stat(FailingFakeStat())
+        .with_foxy_stat(FakeStat())
+    )
+    statistics = await foxypack.get_statistics_async(
+        "https://fakesocialmedia.com/qsgqsdrr"
+    )
 
     assert statistics is not None
     assert isinstance(statistics, AnswersSocialContainer)
@@ -422,31 +464,35 @@ async def test_foxypack_get_statistics_async_multiple_stats():
 
 
 def test_foxypack_empty_initialization():
-    """Тест кейс проверяет инициализацию пустого FoxyPack"""
+    """Test case verifies empty FoxyPack initialization"""
     foxypack = FoxyPack()
 
-    assert foxypack.queue_foxy_analysis == []
-    assert foxypack.queue_foxy_stat == []
+    assert foxypack._queue_foxy_analysis == []
+    assert foxypack._queue_foxy_stat == []
 
 
 def test_foxypack_with_initial_queues():
-    """Тест кейс проверяет инициализацию FoxyPack с предустановленными очередями"""
+    """Test case verifies FoxyPack initialization with preset queues"""
     initial_analysis = [FakeAnalysis(), FakeAnalysis()]
     initial_stats = [FakeStat()]
 
-    foxypack = FoxyPack(queue_foxy_analysis=initial_analysis, queue_foxy_stat=initial_stats)
+    foxypack = FoxyPack(
+        queue_foxy_analysis=initial_analysis, queue_foxy_stat=initial_stats
+    )
 
-    assert len(foxypack.queue_foxy_analysis) == 2
-    assert len(foxypack.queue_foxy_stat) == 1
+    assert len(foxypack._queue_foxy_analysis) == 2
+    assert len(foxypack._queue_foxy_stat) == 1
 
 
 def test_foxypack_with_initial_queues_and_adding_more():
-    """Тест кейс проверяет добавление новых обработчиков в предустановленный FoxyPack"""
+    """Test case verifies adding new handlers to a preset FoxyPack"""
     initial_analysis = [FakeAnalysis()]
     initial_stats = [FakeStat()]
 
-    foxypack = FoxyPack(queue_foxy_analysis=initial_analysis, queue_foxy_stat=initial_stats)
+    foxypack = FoxyPack(
+        queue_foxy_analysis=initial_analysis, queue_foxy_stat=initial_stats
+    )
     foxypack.with_foxy_analysis(FakeAnalysis()).with_foxy_stat(FakeStat())
 
-    assert len(foxypack.queue_foxy_analysis) == 2
-    assert len(foxypack.queue_foxy_stat) == 2
+    assert len(foxypack._queue_foxy_analysis) == 2
+    assert len(foxypack._queue_foxy_stat) == 2
