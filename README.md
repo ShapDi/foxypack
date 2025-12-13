@@ -1,6 +1,6 @@
 # foxypack
 
-# Foxy interface library, entity balancing core, and shared parser
+### Foxy interface library, entity balancing core, and shared parser
 
 ### Basic usage
 
