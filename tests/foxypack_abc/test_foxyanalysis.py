@@ -10,11 +10,11 @@ from foxypack.exceptions import DenialAnalyticsException
 # https://fakesocialmedia.com
 # https://fakesocialmedia.com/qsgqsdrr
 # https://fakesocialmedia.com/qsgqsdr?content_id=video_fdasfdgfs
-# https://fakesocialmedia.com/qsgqsdr?content_id=image_fdasfdgfs
-# https://fakesocialmedia.com/qsgqsdr?content_id=text_fdasfdgfs
 
 
 class FakeAnalysis(FoxyAnalysis):
+    """Test implementation of FoxyAnalysis to test functionality"""
+
     def get_type_content(self, url: str) -> str:
         """Determine content type based on the content_id parameter in URL"""
         parsed_url = urllib.parse.urlparse(url)
