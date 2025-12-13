@@ -172,5 +172,3 @@ def test_fake_stat_container_sync():
     assert result.title == "Tech Reviews Channel"
     assert result.subscribers == 15400
     assert result.creation_date == date(2020, 3, 15)
-
-
