@@ -1,6 +1,11 @@
 from foxypack.foxypack_abc.foxyanalysis import FoxyAnalysis
 from foxypack.foxypack_abc.foxystat import FoxyStat
-from foxypack.foxypack_abc.answers import AnswersAnalysis, AnswersStatistics
+from foxypack.foxypack_abc.answers import (
+    AnswersAnalysis,
+    AnswersStatistics,
+    AnswersSocialContainer,
+    AnswersSocialContent,
+)
 from foxypack.controller import FoxyPack
 from foxypack.exceptions import (
     DenialAnalyticsException,
@@ -16,6 +21,8 @@ __all__ = [
     "FoxyPack",
     "AnswersAnalysis",
     "AnswersStatistics",
+    "AnswersSocialContainer",
+    "AnswersSocialContent",
     "DenialAnalyticsException",
     "InternalCollectionException",
     "DenialSynchronousServiceException",
