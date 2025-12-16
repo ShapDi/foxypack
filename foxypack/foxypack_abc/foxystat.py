@@ -12,6 +12,8 @@ from foxypack.exceptions import (
 
 
 class FoxyStat(ABC):
+    """Abstract class for collecting media content statistics"""
+
     @abstractmethod
     def get_statistics(self, answers_analysis: AnswersAnalysis) -> AnswersStatistics:
         raise DenialSynchronousServiceException(self.__class__)

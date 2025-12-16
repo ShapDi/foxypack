@@ -7,6 +7,8 @@ from foxypack.foxypack_abc.answers import AnswersAnalysis, AnswersStatistics
 
 
 class FoxyPack:
+    """A class for creating a common parser for a set of social media"""
+
     def __init__(
         self,
         queue_foxy_analysis: list[FoxyAnalysis] | None = None,

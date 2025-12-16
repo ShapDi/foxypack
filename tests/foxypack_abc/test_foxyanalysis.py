@@ -15,7 +15,8 @@ from foxypack.exceptions import DenialAnalyticsException
 class FakeAnalysis(FoxyAnalysis):
     """Test implementation of FoxyAnalysis to test functionality"""
 
-    def get_type_content(self, url: str) -> str:
+    @staticmethod
+    def get_type_content(url: str) -> str:
         """Determine content type based on the content_id parameter in URL"""
         parsed_url = urllib.parse.urlparse(url)
 
