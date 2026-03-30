@@ -12,6 +12,14 @@ from foxypack.exceptions import (
     InternalCollectionException,
     DenialSynchronousServiceException,
     DenialAsynchronousServiceException,
+    FoxyException,
+    InvalidUsageException,
+    ConfigurationException,
+    UnsupportedOperationException,
+    ImplementationContractException,
+    CollectionException,
+    ServiceUnavailableException,
+    TimeoutException
 )
 
 
@@ -27,4 +35,12 @@ __all__ = [
     "InternalCollectionException",
     "DenialSynchronousServiceException",
     "DenialAsynchronousServiceException",
+    "FoxyException",
+    "InvalidUsageException",
+    "ConfigurationException",
+    "UnsupportedOperationException",
+    "ImplementationContractException",
+    "CollectionException",
+    "ServiceUnavailableException",
+    "TimeoutException",
 ]

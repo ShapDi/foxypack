@@ -52,13 +52,8 @@ class FakeAnalysis(FoxyAnalysis):
         if domain not in ["fakesocialmedia.com", "www.fakesocialmedia.com"]:
             raise DenialAnalyticsException(url)
 
-        query_params = parse_qs(parsed_url.query)
-
         type_content = self.get_type_content(url)
 
-        content_id_value = None
-        if "content_id" in query_params:
-            content_id_value = query_params["content_id"][0]
         return AnswersAnalysis(
             url=url, social_platform="FakeSocialMedia", type_content=type_content
         )
