@@ -18,7 +18,7 @@ class FoxyPack:
         self._queue_foxy_stat = queue_foxy_stat or []
 
     def with_foxy_analysis(self, foxy_analysis: FoxyAnalysis) -> "Self":
-        self._queue_foxy_analysis.append(foxy_analysis)
+        self._queue_foxy_analysis.append(foxy_analysis) 
         return self
 
     def with_foxy_stat(self, foxy_stat: FoxyStat) -> "Self":

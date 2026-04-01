@@ -1,6 +1,3 @@
-from __future__ import annotations
-
-
 class FoxyException(Exception):
     """Base exception for all Foxy-related errors."""
 
@@ -47,5 +44,39 @@ class ServiceUnavailableException(CollectionException):
 
 class TimeoutException(CollectionException):
     """Raised when an operation times out."""
+
+    pass
+
+
+class ContentBlockedException(FoxyException):
+    """Raised when content is blocked by the platform."""
+
+    pass
+
+
+class ContentAccessException(FoxyException):
+    """
+    Base exception for content that exists but is not accessible to the parser.
+    Not caused by platform blocking.
+    """
+
+    def __init__(self, message: str = "") -> None:
+        super().__init__(message)
+
+
+class ContentNotFoundException(ContentAccessException):
+    """Raised when content does not exist (404-like case)."""
+
+    pass
+
+
+class ContentPrivateException(ContentAccessException):
+    """Raised when content is private or requires authentication."""
+
+    pass
+
+
+class ContentRegionRestrictedException(ContentAccessException):
+    """Raised when content is unavailable in the parser's region."""
 
     pass

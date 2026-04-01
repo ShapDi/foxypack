@@ -7,11 +7,8 @@ from foxypack.foxypack_abc.answers import (
     AnswersSocialContent,
 )
 from foxypack.controller import FoxyPack
+
 from foxypack.exceptions import (
-    DenialAnalyticsException,
-    InternalCollectionException,
-    DenialSynchronousServiceException,
-    DenialAsynchronousServiceException,
     FoxyException,
     InvalidUsageException,
     ConfigurationException,
@@ -20,8 +17,12 @@ from foxypack.exceptions import (
     CollectionException,
     ServiceUnavailableException,
     TimeoutException,
+    ContentBlockedException,
+    ContentAccessException,
+    ContentNotFoundException,
+    ContentPrivateException,
+    ContentRegionRestrictedException,
 )
-
 
 __all__ = [
     "FoxyAnalysis",
@@ -31,10 +32,6 @@ __all__ = [
     "AnswersStatistics",
     "AnswersSocialContainer",
     "AnswersSocialContent",
-    "DenialAnalyticsException",
-    "InternalCollectionException",
-    "DenialSynchronousServiceException",
-    "DenialAsynchronousServiceException",
     "FoxyException",
     "InvalidUsageException",
     "ConfigurationException",
@@ -43,4 +40,9 @@ __all__ = [
     "CollectionException",
     "ServiceUnavailableException",
     "TimeoutException",
+    "ContentBlockedException",
+    "ContentAccessException",
+    "ContentNotFoundException",
+    "ContentPrivateException",
+    "ContentRegionRestrictedException",
 ]
