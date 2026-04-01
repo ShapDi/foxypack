@@ -19,7 +19,7 @@ from foxypack.exceptions import (
     ImplementationContractException,
     CollectionException,
     ServiceUnavailableException,
-    TimeoutException
+    TimeoutException,
 )
 
 

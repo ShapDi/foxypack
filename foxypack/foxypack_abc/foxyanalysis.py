@@ -7,6 +7,4 @@ class FoxyAnalysis(ABC):
     """Abstract class for analysis media content statistics"""
 
     @abstractmethod
-    def get_analysis(self, url: str) -> AnswersAnalysis:
-        ...
-
+    def get_analysis(self, url: str) -> AnswersAnalysis: ...

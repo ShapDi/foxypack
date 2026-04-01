@@ -12,11 +12,11 @@ class FoxyStat(ABC):
     """Abstract class for collecting media content statistics"""
 
     @abstractmethod
-    def get_statistics(self, answers_analysis: AnswersAnalysis) -> AnswersStatistics:
-        ...
+    def get_statistics(
+        self, answers_analysis: AnswersAnalysis
+    ) -> AnswersStatistics: ...
 
     @abstractmethod
     async def get_statistics_async(
         self, answers_analysis: AnswersAnalysis
-    ) -> AnswersStatistics:
-        ...
+    ) -> AnswersStatistics: ...
