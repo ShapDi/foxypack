@@ -8,7 +8,7 @@ from foxypack.foxypack_abc.answers import (
 )
 
 
-class FoxyStat(ABC):
+class FoxyStatistics(ABC):
     """Abstract class for collecting media content statistics"""
 
     @abstractmethod

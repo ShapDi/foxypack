@@ -1,5 +1,5 @@
 from foxypack.foxypack_abc.foxyanalysis import FoxyAnalysis
-from foxypack.foxypack_abc.foxystat import FoxyStat
+from foxypack.foxypack_abc.foxystat import FoxyStatistics
 from foxypack.foxypack_abc.answers import (
     AnswersAnalysis,
     AnswersStatistics,
@@ -26,7 +26,7 @@ from foxypack.exceptions import (
 
 __all__ = [
     "FoxyAnalysis",
-    "FoxyStat",
+    "FoxyStatistics",
     "FoxyPack",
     "AnswersAnalysis",
     "AnswersStatistics",

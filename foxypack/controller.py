@@ -1,31 +1,40 @@
-from typing_extensions import Self
+from pydantic import BaseModel
+from typing import Optional, Self
 
-from foxypack.exceptions import DenialAnalyticsException, InternalCollectionException
 from foxypack.foxypack_abc.foxyanalysis import FoxyAnalysis
-from foxypack.foxypack_abc.foxystat import FoxyStat
+from foxypack.foxypack_abc.foxystat import FoxyStatistics
 from foxypack.foxypack_abc.answers import AnswersAnalysis, AnswersStatistics
 
+
+
+class FoxyPackModule(BaseModel): 
+    foxy_analysis: FoxyAnalysis
+    foxy_statistics: Optional[FoxyStatistics]
+     
 
 class FoxyPack:
     """A class for creating a common parser for a set of social media"""
 
     def __init__(
         self,
-        queue_foxy_analysis: list[FoxyAnalysis] | None = None,
-        queue_foxy_stat: list[FoxyStat] | None = None,
+        queue_foxy_analysis: set[FoxyAnalysis] | None = None,
+        queue_foxy_stat: set[FoxyStatistics] | None = None,
     ) -> None:
-        self._queue_foxy_analysis = queue_foxy_analysis or []
-        self._queue_foxy_stat = queue_foxy_stat or []
+        self._queue_foxy_analysis = queue_foxy_analysis 
+        self._queue_foxy_stat = queue_foxy_stat 
 
-    def with_foxy_analysis(self, foxy_analysis: FoxyAnalysis) -> "Self":
-        self._queue_foxy_analysis.append(foxy_analysis) 
+    def with_module(self, foxy_pack_module: FoxyPackModule) -> Self:
         return self
 
-    def with_foxy_stat(self, foxy_stat: FoxyStat) -> "Self":
-        self._queue_foxy_stat.append(foxy_stat)
-        return self
+    # def with_foxy_analysis(self, foxy_analysis: FoxyAnalysis) -> "Self":
+    #     self._queue_foxy_analysis.append(foxy_analysis) 
+    #     return self
 
-    def get_analysis(self, url: str) -> AnswersAnalysis | None:
+    # def with_foxy_stat(self, foxy_stat: FoxyStat) -> "Self":
+    #     self._queue_foxy_stat.append(foxy_stat)
+    #     return self
+
+    def get_analysis(self, url: str) -> AnswersAnalysis | None: 
         for foxy_analysis in self._queue_foxy_analysis:
             try:
                 result_analysis = foxy_analysis.get_analysis(url=url)
