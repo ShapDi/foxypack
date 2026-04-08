@@ -5,7 +5,7 @@ import pytest
 
 
 from foxypack import FoxyAnalysis, AnswersAnalysis
-from foxypack.exceptions import DenialAnalyticsException
+from foxypack import FoxyException
 
 # https://fakesocialmedia.com
 # https://fakesocialmedia.com/qsgqsdrr

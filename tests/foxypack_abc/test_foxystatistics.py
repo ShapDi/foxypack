@@ -3,19 +3,18 @@ from datetime import date, timedelta
 from typing import Union
 
 from foxypack import (
-    FoxyStat,
     AnswersAnalysis,
-    DenialAsynchronousServiceException,
     AnswersStatistics,
-    DenialSynchronousServiceException,
 )
 
 from urllib.parse import urlparse, parse_qs
 
 from foxypack.foxypack_abc.answers import AnswersSocialContent, AnswersSocialContainer
 
+from foxypack import FoxyStatistics
 
-class FakeStat(FoxyStat):
+
+class FakeStatistics(FoxyStatistics):
     """Test implementation of FoxyStat to test functionality"""
 
     def __init__(self):
@@ -155,7 +154,7 @@ class FakeStat(FoxyStat):
 
 
 def test_fake_stat_container_sync():
-    fake_stat = FakeStat()
+    fake_stat = FakeStatistics()
     analysis = AnswersAnalysis(
         url="https://fakesocialmedia.com/qsgqsdrr",
         social_platform="FakeSocialMedia",

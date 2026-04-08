@@ -1,16 +1,16 @@
-from pydantic import BaseModel
+from dataclasses import dataclass
 from typing import Optional, Self
 
+from foxypack.exceptions import UnsupportedOperationException, ConfigurationException, FoxyException
 from foxypack.foxypack_abc.foxyanalysis import FoxyAnalysis
-from foxypack.foxypack_abc.foxystat import FoxyStatistics
+from foxypack.foxypack_abc.foxystatistics import FoxyStatistics
 from foxypack.foxypack_abc.answers import AnswersAnalysis, AnswersStatistics
 
-
-
-class FoxyPackModule(BaseModel): 
+@dataclass
+class FoxyPackModule:
     foxy_analysis: FoxyAnalysis
     foxy_statistics: Optional[FoxyStatistics]
-     
+
 
 class FoxyPack:
     """A class for creating a common parser for a set of social media"""
@@ -18,55 +18,52 @@ class FoxyPack:
     def __init__(
         self,
         queue_foxy_analysis: set[FoxyAnalysis] | None = None,
-        queue_foxy_stat: set[FoxyStatistics] | None = None,
+        queue_foxy_statistics: set[FoxyStatistics] | None = None,
     ) -> None:
-        self._queue_foxy_analysis = queue_foxy_analysis 
-        self._queue_foxy_stat = queue_foxy_stat 
+        self._queue_foxy_analysis = queue_foxy_analysis or set()
+        self._queue_foxy_statistics = queue_foxy_statistics or set()
 
-    def with_module(self, foxy_pack_module: FoxyPackModule) -> Self:
+    def with_module(self, foxypack_module: FoxyPackModule) -> Self:
+        self._queue_foxy_analysis.add(foxypack_module.foxy_analysis)
+        if foxypack_module.foxy_statistics:
+            self._queue_foxy_statistics.add(foxypack_module.foxy_statistics)
         return self
 
-    # def with_foxy_analysis(self, foxy_analysis: FoxyAnalysis) -> "Self":
-    #     self._queue_foxy_analysis.append(foxy_analysis) 
-    #     return self
-
-    # def with_foxy_stat(self, foxy_stat: FoxyStat) -> "Self":
-    #     self._queue_foxy_stat.append(foxy_stat)
-    #     return self
-
-    def get_analysis(self, url: str) -> AnswersAnalysis | None: 
+    def get_analysis(self, url: str) -> AnswersAnalysis:
+        if not self._queue_foxy_analysis:
+            raise ConfigurationException()
         for foxy_analysis in self._queue_foxy_analysis:
             try:
                 result_analysis = foxy_analysis.get_analysis(url=url)
-            except DenialAnalyticsException:
+                return result_analysis
+            except FoxyException:
                 continue
-            return result_analysis
-        return None
+        raise UnsupportedOperationException()
 
-    def get_statistics(self, url: str) -> AnswersStatistics | None:
+    def get_statistics(self, url: str) -> AnswersStatistics:
         answers_analysis = self.get_analysis(url)
-        if answers_analysis is None:
-            return None
-        for foxy_stat in self._queue_foxy_stat:
+        if not self._queue_foxy_statistics:
+            raise ConfigurationException()
+        for foxy_stat in self._queue_foxy_statistics:
             try:
                 result_analysis = foxy_stat.get_statistics(
                     answers_analysis=answers_analysis
                 )
                 return result_analysis
-            except InternalCollectionException:
+            except FoxyException:
                 continue
-        return None
+        raise UnsupportedOperationException()
 
-    async def get_statistics_async(self, url: str) -> AnswersStatistics | None:
+    async def get_statistics_async(self, url: str) -> AnswersStatistics:
         answers_analysis = self.get_analysis(url)
-        if answers_analysis is None:
-            return None
-        for foxy_stat in self._queue_foxy_stat:
+        if not self._queue_foxy_statistics:
+            raise ConfigurationException()
+        for foxy_stat in self._queue_foxy_statistics:
             try:
                 result_analysis = await foxy_stat.get_statistics_async(
                     answers_analysis=answers_analysis
                 )
                 return result_analysis
-            except InternalCollectionException:
+            except FoxyException:
                 continue
-        return None
+        raise UnsupportedOperationException()
