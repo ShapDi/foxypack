@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 from foxypack.foxypack_abc.answers import (
     AnswersAnalysis,
@@ -19,7 +20,7 @@ class FoxyStatistics(ABC):
         self, answers_analysis: AnswersAnalysis
     ) -> AnswersStatistics: ...
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, FoxyStatistics):
             return False
 
@@ -28,7 +29,7 @@ class FoxyStatistics(ABC):
 
         return True
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         name_bytes = self.__class__.__name__.encode("utf-8")
         hash_value = int.from_bytes(name_bytes, "big")
         return hash_value

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from typing import Any
 
 from foxypack.foxypack_abc.answers import AnswersAnalysis
 
@@ -10,7 +10,7 @@ class FoxyAnalysis(ABC):
     @abstractmethod
     def get_analysis(self, url: str) -> AnswersAnalysis: ...
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         if not isinstance(other, FoxyAnalysis):
             return False
 
@@ -19,7 +19,7 @@ class FoxyAnalysis(ABC):
 
         return True
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         name_bytes = self.__class__.__name__.encode("utf-8")
         hash_value = int.from_bytes(name_bytes, "big")
         return hash_value
