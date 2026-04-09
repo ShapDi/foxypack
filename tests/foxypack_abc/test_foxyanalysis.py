@@ -4,8 +4,8 @@ from urllib.parse import parse_qs
 import pytest
 
 
-from foxypack import FoxyAnalysis, AnswersAnalysis
-from foxypack import FoxyException
+from foxypack import FoxyAnalysis, AnswersAnalysis, CollectionError
+from foxypack import FoxyError
 
 # https://fakesocialmedia.com
 # https://fakesocialmedia.com/qsgqsdrr
@@ -44,13 +44,13 @@ class FakeAnalysis(FoxyAnalysis):
     def get_analysis(self, url: str) -> AnswersAnalysis:
         """Main method for URL analysis"""
         if not url or not url.strip():
-            raise DenialAnalyticsException(url if url else "empty_url")
+            raise CollectionError(url if url else "empty_url")
 
         parsed_url = urllib.parse.urlparse(url)
 
         domain = parsed_url.netloc.lower()
         if domain not in ["fakesocialmedia.com", "www.fakesocialmedia.com"]:
-            raise DenialAnalyticsException(url)
+            raise CollectionError(url)
 
         type_content = self.get_type_content(url)
 
@@ -82,7 +82,7 @@ def test_fake_analysis_video():
 
 def test_invalid_link_analysis():
     """Test analysis of invalid URL"""
-    with pytest.raises(DenialAnalyticsException):
+    with pytest.raises(FoxyError):
         FakeAnalysis().get_analysis(
             "https://invalidmedia.com/qsgqsdr?content_id=video_fdasfdgfs"
         )

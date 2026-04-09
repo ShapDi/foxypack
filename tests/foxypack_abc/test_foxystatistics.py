@@ -4,7 +4,7 @@ from typing import Union
 
 from foxypack import (
     AnswersAnalysis,
-    AnswersStatistics,
+    AnswersStatistics, ConfigurationError,
 )
 
 from urllib.parse import urlparse, parse_qs
@@ -118,7 +118,7 @@ class FakeStatistics(FoxyStatistics):
 
     def get_statistics(self, answers_analysis: AnswersAnalysis) -> AnswersStatistics:
         if not answers_analysis:
-            raise DenialSynchronousServiceException(self.__class__)
+            raise ConfigurationError()
         content_id = self._extract_content_id(answers_analysis.url)
         if answers_analysis.type_content in ["channel", "homepage"]:
             channel_code = content_id if content_id else "home"
@@ -146,7 +146,7 @@ class FakeStatistics(FoxyStatistics):
         self, answers_analysis: AnswersAnalysis
     ) -> AnswersStatistics:
         if not answers_analysis:
-            raise DenialAsynchronousServiceException(self.__class__)
+            raise ConfigurationError()
         import asyncio
 
         await asyncio.sleep(0.1)

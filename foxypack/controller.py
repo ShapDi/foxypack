@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional, Self
 
-from foxypack.exceptions import UnsupportedOperationException, ConfigurationException, FoxyException
+from foxypack.exceptions import FoxyError, ConfigurationError, UnsupportedOperationError
 from foxypack.foxypack_abc.foxyanalysis import FoxyAnalysis
 from foxypack.foxypack_abc.foxystatistics import FoxyStatistics
 from foxypack.foxypack_abc.answers import AnswersAnalysis, AnswersStatistics
@@ -31,39 +31,39 @@ class FoxyPack:
 
     def get_analysis(self, url: str) -> AnswersAnalysis:
         if not self._queue_foxy_analysis:
-            raise ConfigurationException()
+            raise ConfigurationError()
         for foxy_analysis in self._queue_foxy_analysis:
             try:
                 result_analysis = foxy_analysis.get_analysis(url=url)
                 return result_analysis
-            except FoxyException:
+            except FoxyError:
                 continue
-        raise UnsupportedOperationException()
+        raise UnsupportedOperationError()
 
     def get_statistics(self, url: str) -> AnswersStatistics:
         answers_analysis = self.get_analysis(url)
         if not self._queue_foxy_statistics:
-            raise ConfigurationException()
+            raise ConfigurationError()
         for foxy_stat in self._queue_foxy_statistics:
             try:
                 result_analysis = foxy_stat.get_statistics(
                     answers_analysis=answers_analysis
                 )
                 return result_analysis
-            except FoxyException:
+            except FoxyError:
                 continue
-        raise UnsupportedOperationException()
+        raise UnsupportedOperationError()
 
     async def get_statistics_async(self, url: str) -> AnswersStatistics:
         answers_analysis = self.get_analysis(url)
         if not self._queue_foxy_statistics:
-            raise ConfigurationException()
+            raise ConfigurationError()
         for foxy_stat in self._queue_foxy_statistics:
             try:
                 result_analysis = await foxy_stat.get_statistics_async(
                     answers_analysis=answers_analysis
                 )
                 return result_analysis
-            except FoxyException:
+            except FoxyError:
                 continue
-        raise UnsupportedOperationException()
+        raise UnsupportedOperationError()
