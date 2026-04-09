@@ -4,7 +4,8 @@ from typing import Union
 
 from foxypack import (
     AnswersAnalysis,
-    AnswersStatistics, ConfigurationError,
+    AnswersStatistics,
+    ConfigurationError,
 )
 
 from urllib.parse import urlparse, parse_qs

@@ -36,6 +36,7 @@ class AnswersAnalysis(AnswersBase):
 @dataclass(slots=True, kw_only=True)
 class AnswersStatistics(AnswersBase):
     """Base model for statistics answers."""
+
     pass
 
 

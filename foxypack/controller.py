@@ -1,15 +1,9 @@
-from dataclasses import dataclass
-from typing import Optional, Self
+from typing import Self
 
 from foxypack.exceptions import FoxyError, ConfigurationError, UnsupportedOperationError
 from foxypack.foxypack_abc.foxyanalysis import FoxyAnalysis
 from foxypack.foxypack_abc.foxystatistics import FoxyStatistics
 from foxypack.foxypack_abc.answers import AnswersAnalysis, AnswersStatistics
-
-@dataclass
-class FoxyPackModule:
-    foxy_analysis: FoxyAnalysis
-    foxy_statistics: Optional[FoxyStatistics]
 
 
 class FoxyPack:
@@ -23,10 +17,12 @@ class FoxyPack:
         self._queue_foxy_analysis = queue_foxy_analysis or set()
         self._queue_foxy_statistics = queue_foxy_statistics or set()
 
-    def with_module(self, foxypack_module: FoxyPackModule) -> Self:
-        self._queue_foxy_analysis.add(foxypack_module.foxy_analysis)
-        if foxypack_module.foxy_statistics:
-            self._queue_foxy_statistics.add(foxypack_module.foxy_statistics)
+    def with_module(
+        self, foxy_analysis: FoxyAnalysis, foxy_statistics: FoxyStatistics | None = None
+    ) -> Self:
+        self._queue_foxy_analysis.add(foxy_analysis)
+        if foxy_statistics:
+            self._queue_foxy_statistics.add(foxy_statistics)
         return self
 
     def get_analysis(self, url: str) -> AnswersAnalysis:

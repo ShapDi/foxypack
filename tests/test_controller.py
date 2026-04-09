@@ -8,7 +8,6 @@ from foxypack.exceptions import (
     FoxyError,
     UnsupportedOperationError,
 )
-from foxypack import FoxyPackModule
 from foxypack.foxypack_abc.answers import (
     AnswersSocialContent,
     AnswersSocialContainer,
@@ -26,10 +25,8 @@ def test_foxypack_empty_initialization():
 
 def test_foxypack_with_module_analysis_only():
     foxypack = FoxyPack().with_module(
-        FoxyPackModule(
-            foxy_analysis=FakeAnalysis(),
-            foxy_statistics=None,
-        )
+        foxy_analysis=FakeAnalysis(),
+        foxy_statistics=None,
     )
 
     assert len(foxypack._queue_foxy_analysis) == 1
@@ -41,10 +38,8 @@ def test_foxypack_with_module_analysis_only():
 
 def test_foxypack_with_module_analysis_and_statistics():
     foxypack = FoxyPack().with_module(
-        FoxyPackModule(
-            foxy_analysis=FakeAnalysis(),
-            foxy_statistics=FakeStatistics(),
-        )
+        foxy_analysis=FakeAnalysis(),
+        foxy_statistics=FakeStatistics(),
     )
 
     assert len(foxypack._queue_foxy_analysis) == 1
@@ -59,18 +54,16 @@ def test_foxypack_with_module_analysis_and_statistics():
 
 def test_foxypack_with_same_analysis_class_deduplicates_in_set():
     foxypack = FoxyPack()
-    foxypack.with_module(FoxyPackModule(FakeAnalysis(), None))
-    foxypack.with_module(FoxyPackModule(FakeAnalysis(), None))
+    foxypack.with_module(FakeAnalysis(), None)
+    foxypack.with_module(FakeAnalysis(), None)
 
     assert len(foxypack._queue_foxy_analysis) == 1
 
 
 def test_foxypack_get_analysis_channel():
     foxypack = FoxyPack().with_module(
-        FoxyPackModule(
-            foxy_analysis=FakeAnalysis(),
-            foxy_statistics=None,
-        )
+        foxy_analysis=FakeAnalysis(),
+        foxy_statistics=None,
     )
 
     analysis = foxypack.get_analysis("https://fakesocialmedia.com/qsgqsdrr")
@@ -83,10 +76,8 @@ def test_foxypack_get_analysis_channel():
 
 def test_foxypack_get_analysis_video():
     foxypack = FoxyPack().with_module(
-        FoxyPackModule(
-            foxy_analysis=FakeAnalysis(),
-            foxy_statistics=None,
-        )
+        foxy_analysis=FakeAnalysis(),
+        foxy_statistics=None,
     )
 
     analysis = foxypack.get_analysis(
@@ -101,14 +92,14 @@ def test_foxypack_get_analysis_video():
 
 def test_foxypack_get_analysis_invalid_url_raises_unsupported():
     foxypack = FoxyPack().with_module(
-        FoxyPackModule(
-            foxy_analysis=FakeAnalysis(),
-            foxy_statistics=None,
-        )
+        foxy_analysis=FakeAnalysis(),
+        foxy_statistics=None,
     )
 
     with pytest.raises(UnsupportedOperationError):
-        foxypack.get_analysis("https://invalidmedia.com/qsgqsdr?content_id=video_fdasfdgfs")
+        foxypack.get_analysis(
+            "https://invalidmedia.com/qsgqsdr?content_id=video_fdasfdgfs"
+        )
 
 
 def test_foxypack_get_analysis_no_analyzers_raises_configuration():
@@ -140,9 +131,7 @@ def test_foxypack_get_analysis_multiple_analyzers_all_fail():
         def get_analysis(self, url: str):
             raise FoxyError("analysis failed")
 
-    foxypack = FoxyPack(
-        queue_foxy_analysis={FailingFakeAnalysis()}
-    )
+    foxypack = FoxyPack(queue_foxy_analysis={FailingFakeAnalysis()})
 
     with pytest.raises(UnsupportedOperationError):
         foxypack.get_analysis("https://fakesocialmedia.com/qsgqsdrr")
@@ -150,10 +139,8 @@ def test_foxypack_get_analysis_multiple_analyzers_all_fail():
 
 def test_foxypack_get_statistics_full_flow():
     foxypack = FoxyPack().with_module(
-        FoxyPackModule(
-            foxy_analysis=FakeAnalysis(),
-            foxy_statistics=FakeStatistics(),
-        )
+        foxy_analysis=FakeAnalysis(),
+        foxy_statistics=FakeStatistics(),
     )
 
     statistics = foxypack.get_statistics("https://fakesocialmedia.com/qsgqsdrr")
@@ -168,10 +155,8 @@ def test_foxypack_get_statistics_full_flow():
 
 def test_foxypack_get_statistics_video_content():
     foxypack = FoxyPack().with_module(
-        FoxyPackModule(
-            foxy_analysis=FakeAnalysis(),
-            foxy_statistics=FakeStatistics(),
-        )
+        foxy_analysis=FakeAnalysis(),
+        foxy_statistics=FakeStatistics(),
     )
 
     statistics = foxypack.get_statistics(
@@ -187,18 +172,14 @@ def test_foxypack_get_statistics_video_content():
 
 
 def test_foxypack_get_statistics_no_analysis_raises_configuration():
-    foxypack = FoxyPack(
-        queue_foxy_statistics={FakeStatistics()}
-    )
+    foxypack = FoxyPack(queue_foxy_statistics={FakeStatistics()})
 
     with pytest.raises(ConfigurationError):
         foxypack.get_statistics("https://fakesocialmedia.com/qsgqsdrr")
 
 
 def test_foxypack_get_statistics_no_stats_raises_configuration():
-    foxypack = FoxyPack(
-        queue_foxy_analysis={FakeAnalysis()}
-    )
+    foxypack = FoxyPack(queue_foxy_analysis={FakeAnalysis()})
 
     with pytest.raises(ConfigurationError):
         foxypack.get_statistics("https://fakesocialmedia.com/qsgqsdrr")
@@ -206,10 +187,8 @@ def test_foxypack_get_statistics_no_stats_raises_configuration():
 
 def test_foxypack_get_statistics_invalid_url_raises_unsupported():
     foxypack = FoxyPack().with_module(
-        FoxyPackModule(
-            foxy_analysis=FakeAnalysis(),
-            foxy_statistics=FakeStatistics(),
-        )
+        foxy_analysis=FakeAnalysis(),
+        foxy_statistics=FakeStatistics(),
     )
 
     with pytest.raises(UnsupportedOperationError):
@@ -250,10 +229,8 @@ def test_foxypack_get_statistics_multiple_stats_all_fail():
 @pytest.mark.asyncio
 async def test_foxypack_get_statistics_async_full_flow():
     foxypack = FoxyPack().with_module(
-        FoxyPackModule(
-            foxy_analysis=FakeAnalysis(),
-            foxy_statistics=FakeStatistics(),
-        )
+        foxy_analysis=FakeAnalysis(),
+        foxy_statistics=FakeStatistics(),
     )
 
     statistics = await foxypack.get_statistics_async(
@@ -271,10 +248,8 @@ async def test_foxypack_get_statistics_async_full_flow():
 @pytest.mark.asyncio
 async def test_foxypack_get_statistics_async_video_content():
     foxypack = FoxyPack().with_module(
-        FoxyPackModule(
-            foxy_analysis=FakeAnalysis(),
-            foxy_statistics=FakeStatistics(),
-        )
+        foxy_analysis=FakeAnalysis(),
+        foxy_statistics=FakeStatistics(),
     )
 
     statistics = await foxypack.get_statistics_async(
@@ -291,9 +266,7 @@ async def test_foxypack_get_statistics_async_video_content():
 
 @pytest.mark.asyncio
 async def test_foxypack_get_statistics_async_no_analysis_raises_configuration():
-    foxypack = FoxyPack(
-        queue_foxy_statistics={FakeStatistics()}
-    )
+    foxypack = FoxyPack(queue_foxy_statistics={FakeStatistics()})
 
     with pytest.raises(ConfigurationError):
         await foxypack.get_statistics_async("https://fakesocialmedia.com/qsgqsdrr")
@@ -302,10 +275,8 @@ async def test_foxypack_get_statistics_async_no_analysis_raises_configuration():
 @pytest.mark.asyncio
 async def test_foxypack_get_statistics_async_invalid_url_raises_unsupported():
     foxypack = FoxyPack().with_module(
-        FoxyPackModule(
-            foxy_analysis=FakeAnalysis(),
-            foxy_statistics=FakeStatistics(),
-        )
+        foxy_analysis=FakeAnalysis(),
+        foxy_statistics=FakeStatistics(),
     )
 
     with pytest.raises(UnsupportedOperationError):
@@ -355,12 +326,9 @@ def test_foxypack_with_initial_queues_and_adding_more_deduplicates_same_classes(
     )
 
     foxypack.with_module(
-        FoxyPackModule(
-            foxy_analysis=FakeAnalysis(),
-            foxy_statistics=FakeStatistics(),
-        )
+        foxy_analysis=FakeAnalysis(),
+        foxy_statistics=FakeStatistics(),
     )
 
-    # из-за set + __eq__/__hash__ одинаковые классы не дублируются
     assert len(foxypack._queue_foxy_analysis) == 1
     assert len(foxypack._queue_foxy_statistics) == 1

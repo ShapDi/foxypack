@@ -6,7 +6,7 @@ from foxypack.foxypack_abc.answers import (
     AnswersSocialContainer,
     AnswersSocialContent,
 )
-from foxypack.controller import FoxyPack, FoxyPackModule
+from foxypack.controller import FoxyPack
 
 from foxypack.exceptions import (
     FoxyError,
@@ -28,7 +28,6 @@ __all__ = [
     "FoxyAnalysis",
     "FoxyStatistics",
     "FoxyPack",
-    "FoxyPackModule",
     "AnswersAnalysis",
     "AnswersStatistics",
     "AnswersSocialContainer",
