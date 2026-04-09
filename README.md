@@ -8,12 +8,7 @@
 
 ~~~python
 
-from foxypack import FoxyPack
-from foxypack_youtube_pytubefix import FoxyYouTubeAnalysis
 
-parser = FoxyPack().with_foxy_analysis(FoxyYouTubeAnalysis())
-
-parser.get_analysis("https://youtu.be/-3eMzaP9XOM")
 
 ~~~
 
@@ -21,13 +16,6 @@ parser.get_analysis("https://youtu.be/-3eMzaP9XOM")
 
 ~~~python
 
-from foxypack import FoxyPack
-from foxypack_youtube_pytubefix import YouTubeVideo
 
-parser = FoxyPack().with_foxy_stat(
-    YouTubeVideo()
-)
-
-parser.get_statistics("https://youtu.be/-3eMzaP9XOM")
 
 ~~~
