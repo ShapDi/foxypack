@@ -1,6 +1,13 @@
 from dataclasses import dataclass, field
-from typing import Any, List
+from typing import Any, List, Optional
 from abc import ABC, abstractmethod
+
+
+@dataclass
+class SearchFilters:
+    sort_by: Any = None
+    upload_date: Any = None
+    content_type: Any = None
 
 
 @dataclass
@@ -23,7 +30,7 @@ class PlatformSearcher(ABC):
     def search(
         self,
         query: str,
-        filters = None,
+        filters: Optional[SearchFilters] = None,
         max_results: int = 20,
     ) -> List[SearchResult]:
         """
