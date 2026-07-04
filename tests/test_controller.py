@@ -85,7 +85,9 @@ def test_foxypack_get_analysis_video():
     )
 
     assert analysis is not None
-    assert analysis.url == "https://fakesocialmedia.com/qsgqsdr?content_id=video_fdasfdgfs"
+    assert (
+        analysis.url == "https://fakesocialmedia.com/qsgqsdr?content_id=video_fdasfdgfs"
+    )
     assert analysis.social_platform == "FakeSocialMedia"
     assert analysis.type_content == "video"
 
@@ -114,9 +116,7 @@ def test_foxypack_get_analysis_multiple_analyzers_first_fails_second_succeeds():
         def get_analysis(self, url: str):
             raise FoxyError("analysis failed")
 
-    foxypack = FoxyPack(
-        queue_foxy_analysis={FailingFakeAnalysis(), FakeAnalysis()}
-    )
+    foxypack = FoxyPack(queue_foxy_analysis={FailingFakeAnalysis(), FakeAnalysis()})
 
     analysis = foxypack.get_analysis("https://fakesocialmedia.com/qsgqsdrr")
 
